@@ -12,7 +12,7 @@ divide(DIRECTED_AWAY_FROM_ZERO, 25n, 10n) // 3n
 
 ### divide(roundingMode, a, b)
 
-`roundingMode` must be one of the enumerated values provided by `ROUNDING_MODE` (*q.v.*). `a` must a `BigInt`, the dividend. `b` must be a `BigInt`, the divisor. The return value is the quotient, a `BigInt`, rounded to the nearest integer using the provided rounding mode.
+`roundingMode` must be one of the enumerated values provided by `ROUNDING_MODE` (*q.v.*). `a` must be a `BigInt`, the dividend. `b` must be a `BigInt`, the divisor. The return value is the quotient, a `BigInt`, rounded to the nearest integer using the provided rounding mode.
 
 ### ROUNDING_MODE
 
