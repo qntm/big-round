@@ -16,7 +16,7 @@ divide(DIRECTED_AWAY_FROM_ZERO, 25n, 10n) // 3n
 
 ### ROUNDING_MODE
 
-This object contains the following enumerated values.
+This object contains the following enumerated values. More detailed information about these modes of integer rounding can be found [on Wikipedia](https://en.wikipedia.org/wiki/Rounding#Rounding_to_integer).
 
 The first few rounding modes are directed and always round in a particular direction, regardless of fraction.
 
