@@ -389,5 +389,77 @@ describe('divide', () => {
         expect(divide(ROUNDING_MODE.NEAREST_HALF_TO_ODD, 18n, -10n)).toBe(-2n)
       })
     })
+
+    describe('half alternates up and down', () => {
+      it('works', () => {
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 18n, 10n)).toBe(2n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 15n, 10n)).toBe(2n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 15n, 10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 12n, 10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 10n, 10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 8n, 10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 5n, 10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 5n, 10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 2n, 10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 0n, 10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -2n, 10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -5n, 10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -5n, 10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -8n, 10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -10n, 10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -12n, 10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -15n, 10n)).toBe(-2n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -15n, 10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -18n, 10n)).toBe(-2n)
+      })
+
+      it('works on negatives', () => {
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -18n, -10n)).toBe(2n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -15n, -10n)).toBe(2n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -15n, -10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -12n, -10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -10n, -10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -8n, -10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -5n, -10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -5n, -10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, -2n, -10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 0n, -10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 2n, -10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 5n, -10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 5n, -10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 8n, -10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 10n, -10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 12n, -10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 15n, -10n)).toBe(-2n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 15n, -10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_ALTERNATE, 18n, -10n)).toBe(-2n)
+      })
+    })
+
+    describe('half random', () => {
+      it('"works"', () => {
+        // Ugh whatever
+        const buckets = { 1: 0, 2: 0 }
+        for (let i = 0; i < 1000; i++) {
+          buckets[String(divide(ROUNDING_MODE.NEAREST_HALF_RANDOM, 15n, 10n))]++
+        }
+        expect(450 < buckets[1] && buckets[1] < 550).toBe(true)
+        expect(450 < buckets[2] && buckets[2] < 550).toBe(true)
+      })
+    })
+  })
+
+  describe('random', () => {
+    describe('stochastic', () => {
+      it('"works"', () => {
+        // Ugh whatever
+        const buckets = { 1: 0, 2: 0 }
+        for (let i = 0; i < 1000; i++) {
+          buckets[String(divide(ROUNDING_MODE.STOCHASTIC, -16n, -10n))]++
+        }
+        expect(350 < buckets[1] && buckets[1] < 450).toBe(true)
+        expect(550 < buckets[2] && buckets[2] < 650).toBe(true)
+      })
+    })
   })
 })
