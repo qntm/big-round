@@ -1,6 +1,6 @@
 {
   "name": "big-round",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Custom rounding behaviour for BigInt arithmetic",
   "main": "src/index.js",
   "dependencies": {},
@@ -14,5 +14,24 @@
   "license": "MIT",
   "files": [
     "src/index.js"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qntm/big-round.git"
+  },
+  "keywords": [
+    "bigint",
+    "big",
+    "integer",
+    "round",
+    "rounding",
+    "math",
+    "mathematics",
+    "divide",
+    "division"
+  ],
+  "bugs": {
+    "url": "https://github.com/qntm/big-round/issues"
+  },
+  "homepage": "https://github.com/qntm/big-round#readme"
 }
