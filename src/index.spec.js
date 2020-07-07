@@ -65,7 +65,7 @@ describe('divide', () => {
         expect(divide(ROUNDING_MODE.DIRECTED_AWAY_FROM_ZERO, -18n, 10n)).toBe(-2n)
       })
 
-      it('works', () => {
+      it('works on negatives', () => {
         expect(divide(ROUNDING_MODE.DIRECTED_AWAY_FROM_ZERO, 18n, 10n)).toBe(2n)
         expect(divide(ROUNDING_MODE.DIRECTED_AWAY_FROM_ZERO, 15n, 10n)).toBe(2n)
         expect(divide(ROUNDING_MODE.DIRECTED_AWAY_FROM_ZERO, 12n, 10n)).toBe(2n)
@@ -452,7 +452,7 @@ describe('divide', () => {
   describe('random', () => {
     describe('stochastic', () => {
       it('"works"', () => {
-        // Ugh whatever
+        // Submit a PR if you have a half-decent idea of how to unit this nonsense
         const buckets = { 1: 0, 2: 0 }
         for (let i = 0; i < 1000; i++) {
           buckets[String(divide(ROUNDING_MODE.STOCHASTIC, -16n, -10n))]++
