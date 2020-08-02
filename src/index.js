@@ -15,6 +15,7 @@ const ROUNDING_MODE = {
 }
 
 // Return a random BigInt from [0, range). `range` must be a positive BigInt
+// This looks gross and then you try to figure out a better way
 const randBigInt = range =>
   BigInt(
     Array(range.toString().length + 10) // overcome bias towards the bottom end
