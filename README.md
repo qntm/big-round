@@ -1,6 +1,6 @@
 # big-round
 
-Ordinarily, `BigInt` division rounds towards 0. `big-round` provides alternative methods for dividing `BigInt`s with different rounding behaviour.
+Ordinarily, JavaScript `BigInt` division rounds towards 0. `big-round` provides alternative methods for dividing `BigInt`s with different rounding behaviour.
 
 ```js
 const { divide, ROUNDING_MODE: { DIRECTED_AWAY_FROM_ZERO } } = require('big-round')
@@ -36,7 +36,7 @@ Always round fractions towards positive infinity. Equivalent to applying the cei
 
 #### STOCHASTIC
 
-Round all fractions up or down randomly with probability proportional to proximity. *E.g.* a quotient of 1.7 is rounded down to `1n` with probability .3 and up to `2n` with probability .7. This randomness is not cryptographically secure.
+Round all fractions up or down randomly with probability proportional to proximity. *E.g.* a quotient of 1.7 is rounded down to `1n` with probability .3 and up to `2n` with probability .7.
 
 #### NEAREST_HALF_TOWARDS_ZERO
 
