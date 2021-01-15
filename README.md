@@ -18,6 +18,10 @@ divide(DIRECTED_AWAY_FROM_ZERO, 25n, 10n) // 3n
 
 This object contains the following enumerated values. More detailed information about these modes of integer rounding can be found [on Wikipedia](https://en.wikipedia.org/wiki/Rounding#Rounding_to_integer).
 
+#### THROW
+
+If `b` does not divide `a`, instead of attempting rounding, throw an exception.
+
 #### DIRECTED_TOWARDS_ZERO
 
 Always round fractions "down", towards zero. Note that this is the default rounding mode in JavaScript `BigInt` division. `big-round` provides it for completeness, but you can do `a / b` to get an identical result.
@@ -37,6 +41,10 @@ Always round fractions towards positive infinity. Equivalent to applying the cei
 #### STOCHASTIC
 
 Round all fractions up or down randomly with probability proportional to proximity. *E.g.* a quotient of 1.7 is rounded down to `1n` with probability .3 and up to `2n` with probability .7.
+
+#### NEAREST_HALF_THROW
+
+Round fractions to the nearest integer. If the fraction is exactly .5, instead of attempting rounding, throw an exception.
 
 #### NEAREST_HALF_TOWARDS_ZERO
 

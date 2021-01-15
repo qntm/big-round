@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 // Test data mostly from Wikipedia
 // <https://en.wikipedia.org/w/index.php?title=Rounding&oldid=960109264#Comparison_of_approaches_for_rounding_to_an_integer>
 
@@ -7,7 +9,83 @@ const {
 } = require('.')
 
 describe('divide', () => {
+  describe('unrecognised', () => {
+    it('throws', () => {
+      expect(() => divide(-50103, 18n, 10n)).toThrowError()
+      expect(() => divide(-50103, 15n, 10n)).toThrowError()
+      expect(() => divide(-50103, 12n, 10n)).toThrowError()
+      expect(() => divide(-50103, 10n, 10n)).toThrowError()
+      expect(() => divide(-50103, 8n, 10n)).toThrowError()
+      expect(() => divide(-50103, 5n, 10n)).toThrowError()
+      expect(() => divide(-50103, 2n, 10n)).toThrowError()
+      expect(() => divide(-50103, 0n, 10n)).toThrowError()
+      expect(() => divide(-50103, -2n, 10n)).toThrowError()
+      expect(() => divide(-50103, -5n, 10n)).toThrowError()
+      expect(() => divide(-50103, -8n, 10n)).toThrowError()
+      expect(() => divide(-50103, -10n, 10n)).toThrowError()
+      expect(() => divide(-50103, -12n, 10n)).toThrowError()
+      expect(() => divide(-50103, -15n, 10n)).toThrowError()
+      expect(() => divide(-50103, -18n, 10n)).toThrowError()
+    })
+
+    it('throws on negatives', () => {
+      expect(() => divide(-50103, -18n, -10n)).toThrowError()
+      expect(() => divide(-50103, -15n, -10n)).toThrowError()
+      expect(() => divide(-50103, -12n, -10n)).toThrowError()
+      expect(() => divide(-50103, -10n, -10n)).toThrowError()
+      expect(() => divide(-50103, -8n, -10n)).toThrowError()
+      expect(() => divide(-50103, -5n, -10n)).toThrowError()
+      expect(() => divide(-50103, -2n, -10n)).toThrowError()
+      expect(() => divide(-50103, 0n, -10n)).toThrowError()
+      expect(() => divide(-50103, 2n, -10n)).toThrowError()
+      expect(() => divide(-50103, 5n, -10n)).toThrowError()
+      expect(() => divide(-50103, 8n, -10n)).toThrowError()
+      expect(() => divide(-50103, 10n, -10n)).toThrowError()
+      expect(() => divide(-50103, 12n, -10n)).toThrowError()
+      expect(() => divide(-50103, 15n, -10n)).toThrowError()
+      expect(() => divide(-50103, 18n, -10n)).toThrowError()
+    })
+  })
+
   describe('directed', () => {
+    describe('throw', () => {
+      it('works', () => {
+        expect(() => divide(ROUNDING_MODE.THROW, 18n, 10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, 15n, 10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, 12n, 10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.THROW, 10n, 10n)).toBe(1n)
+        expect(() => divide(ROUNDING_MODE.THROW, 8n, 10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, 5n, 10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, 2n, 10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.THROW, 0n, 10n)).toBe(0n)
+        expect(() => divide(ROUNDING_MODE.THROW, -2n, 10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, -5n, 10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, -8n, 10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.THROW, -10n, 10n)).toBe(-1n)
+        expect(() => divide(ROUNDING_MODE.THROW, -12n, 10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, -15n, 10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, -18n, 10n)).toThrowError()
+      })
+
+      it('works on negatives', () => {
+        expect(() => divide(ROUNDING_MODE.THROW, -18n, -10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, -15n, -10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, -12n, -10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.THROW, -10n, -10n)).toBe(1n)
+        expect(() => divide(ROUNDING_MODE.THROW, -8n, -10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, -5n, -10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, -2n, -10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.THROW, 0n, -10n)).toBe(0n)
+        expect(() => divide(ROUNDING_MODE.THROW, 2n, -10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, 5n, -10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, 8n, -10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.THROW, 10n, -10n)).toBe(-1n)
+        expect(() => divide(ROUNDING_MODE.THROW, 12n, -10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, 15n, -10n)).toThrowError()
+        expect(() => divide(ROUNDING_MODE.THROW, 18n, -10n)).toThrowError()
+      })
+    })
+
     describe('towards zero', () => {
       it('works', () => {
         expect(divide(ROUNDING_MODE.DIRECTED_TOWARDS_ZERO, 18n, 10n)).toBe(1n)
@@ -162,6 +240,44 @@ describe('divide', () => {
   })
 
   describe('to nearest', () => {
+    describe('half throws', () => {
+      it('works', () => {
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, 18n, 10n)).toBe(2n)
+        expect(() => divide(ROUNDING_MODE.NEAREST_HALF_THROW, 15n, 10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, 12n, 10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, 10n, 10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, 8n, 10n)).toBe(1n)
+        expect(() => divide(ROUNDING_MODE.NEAREST_HALF_THROW, 5n, 10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, 2n, 10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, 0n, 10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, -2n, 10n)).toBe(0n)
+        expect(() => divide(ROUNDING_MODE.NEAREST_HALF_THROW, -5n, 10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, -8n, 10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, -10n, 10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, -12n, 10n)).toBe(-1n)
+        expect(() => divide(ROUNDING_MODE.NEAREST_HALF_THROW, -15n, 10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, -18n, 10n)).toBe(-2n)
+      })
+
+      it('works on negatives', () => {
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, -18n, -10n)).toBe(2n)
+        expect(() => divide(ROUNDING_MODE.NEAREST_HALF_THROW, -15n, -10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, -12n, -10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, -10n, -10n)).toBe(1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, -8n, -10n)).toBe(1n)
+        expect(() => divide(ROUNDING_MODE.NEAREST_HALF_THROW, -5n, -10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, -2n, -10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, 0n, -10n)).toBe(0n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, 2n, -10n)).toBe(0n)
+        expect(() => divide(ROUNDING_MODE.NEAREST_HALF_THROW, 5n, -10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, 8n, -10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, 10n, -10n)).toBe(-1n)
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, 12n, -10n)).toBe(-1n)
+        expect(() => divide(ROUNDING_MODE.NEAREST_HALF_THROW, 15n, -10n)).toThrowError()
+        expect(divide(ROUNDING_MODE.NEAREST_HALF_THROW, 18n, -10n)).toBe(-2n)
+      })
+    })
+
     describe('half towards zero', () => {
       it('works', () => {
         expect(divide(ROUNDING_MODE.NEAREST_HALF_TOWARDS_ZERO, 18n, 10n)).toBe(2n)
@@ -443,8 +559,8 @@ describe('divide', () => {
         for (let i = 0; i < 1000; i++) {
           buckets[String(divide(ROUNDING_MODE.NEAREST_HALF_RANDOM, 15n, 10n))]++
         }
-        expect(450 < buckets[1] && buckets[1] < 550).toBe(true)
-        expect(450 < buckets[2] && buckets[2] < 550).toBe(true)
+        expect(buckets[1] > 450 && buckets[1] < 550).toBe(true)
+        expect(buckets[2] > 450 && buckets[2] < 550).toBe(true)
       })
     })
   })
@@ -457,8 +573,8 @@ describe('divide', () => {
         for (let i = 0; i < 1000; i++) {
           buckets[String(divide(ROUNDING_MODE.STOCHASTIC, -16n, -10n))]++
         }
-        expect(350 < buckets[1] && buckets[1] < 450).toBe(true)
-        expect(550 < buckets[2] && buckets[2] < 650).toBe(true)
+        expect(buckets[1] > 350 && buckets[1] < 450).toBe(true)
+        expect(buckets[2] > 550 && buckets[2] < 650).toBe(true)
       })
     })
   })
