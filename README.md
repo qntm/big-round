@@ -10,9 +10,9 @@ divide(DIRECTED_AWAY_FROM_ZERO, 25n, 10n) // 3n
 
 ## API
 
-### divide(roundingMode, a, b)
+### Divide(roundingMode)
 
-`roundingMode` must be one of the enumerated values provided by `ROUNDING_MODE` (*q.v.*). `a` must be a `BigInt`, the dividend. `b` must be a `BigInt`, the divisor. The return value is the quotient, a `BigInt`, rounded to the nearest integer using the provided rounding mode.
+`roundingMode` must be one of the enumerated values provided by `ROUNDING_MODE` (*q.v.*). Returns a new function `divide(a, b)`, where `a` must be a `BigInt`, the dividend. `b` must be a `BigInt`, the divisor. The return value from `divide` is the quotient, a `BigInt`, rounded to the nearest integer using the provided rounding mode.
 
 ### ROUNDING_MODE
 
@@ -74,7 +74,7 @@ Round fractions to the nearest integer. If the fraction is exactly .5, round to 
 
 Round fractions to the nearest integer. If the fraction is exactly .5, round "up", away from zero, the first time this happens, then "down", towards zero, the second time, and continue to alternate in that fashion.
 
-An internal counter tracks the number of times that this rounding mode has been used and the fraction turned out to be exactly .5. If a different rounding mode is used, this counter does not advance. If the fraction is not exactly .5, the counter does not advance.
+An internal counter on the `divide` function tracks the number of times that this function has been called and the fraction turned out to be exactly .5. If the fraction is not exactly .5, the counter does not advance.
 
 #### NEAREST_HALF_RANDOM
 

@@ -1,4 +1,4 @@
-const ROUNDING_MODE = {
+export const ROUNDING_MODE = {
   THROW: -1,
   DIRECTED_TOWARDS_ZERO: 0,
   DIRECTED_AWAY_FROM_ZERO: 1,
@@ -26,80 +26,77 @@ const randBigInt = range =>
       .join('')
   ) % range
 
-// Eww, mutable global state
-let alternateUp = false
-
-const divide = (roundingMode, a, b) => {
+export const Divide = roundingMode => {
   if (!Object.values(ROUNDING_MODE).some(r => r === roundingMode)) {
     throw Error('Unrecognised rounding strategy')
   }
 
-  const q = a / b
+  // Eww, mutable global state
+  let alternateUp = false
 
-  // `b` must be non-zero or we would have thrown an exception by now
+  return (a, b) => {
+    const q = a / b
 
-  // The real quotient (call it `r`) was rounded towards zero to yield `q`.
-  // We may need to undo this, by adding back 1n, or -1n if `r` was negative.
+    // `b` must be non-zero or we would have thrown an exception by now
 
-  // What was the sign of `r`? May be non-zero even if `q` is `0n` e.g. 1n / 10n
-  const sign = a === 0n
-    ? 0n
-    : (a > 0n) === (b > 0n)
-        ? 1n
-        : -1n
+    // The real quotient (call it `r`) was rounded towards zero to yield `q`.
+    // We may need to undo this, by adding back 1n, or -1n if `r` was negative.
 
-  // What fraction was truncated to make `r` into `q`?
-  const absA = a >= 0n ? a : -a
-  const absB = b >= 0n ? b : -b
+    // What was the sign of `r`? May be non-zero even if `q` is `0n` e.g. 1n / 10n
+    const sign = a === 0n
+      ? 0n
+      : (a > 0n) === (b > 0n)
+          ? 1n
+          : -1n
 
-  const remainder = absA % absB
+    // What fraction was truncated to make `r` into `q`?
+    const absA = a >= 0n ? a : -a
+    const absB = b >= 0n ? b : -b
 
-  const undoTruncation = remainder === 0n
-    ? false // no truncation occurred
-    : roundingMode === ROUNDING_MODE.THROW
-      ? (() => { throw Error('b does not divide a') })()
-      : roundingMode === ROUNDING_MODE.DIRECTED_TOWARDS_ZERO
-        ? false
-        : roundingMode === ROUNDING_MODE.DIRECTED_AWAY_FROM_ZERO
-          ? true
-          : roundingMode === ROUNDING_MODE.DIRECTED_TOWARDS_NEGATIVE_INFINITY
-            ? sign < 0n
-            : roundingMode === ROUNDING_MODE.DIRECTED_TOWARDS_POSITIVE_INFINITY
-              ? sign > 0n
-              : roundingMode === ROUNDING_MODE.STOCHASTIC
-                ? randBigInt(absB) < remainder
+    const remainder = absA % absB
 
-                // All modes beyond this point round to nearest
-                : remainder * 2n < absB
-                  ? false // truncated less than .5, leave it
-                  : remainder * 2n > absB
-                    ? true // truncated more than .5, undo that
+    const undoTruncation = remainder === 0n
+      ? false // no truncation occurred
+      : roundingMode === ROUNDING_MODE.THROW
+        ? (() => { throw Error('b does not divide a') })()
+        : roundingMode === ROUNDING_MODE.DIRECTED_TOWARDS_ZERO
+          ? false
+          : roundingMode === ROUNDING_MODE.DIRECTED_AWAY_FROM_ZERO
+            ? true
+            : roundingMode === ROUNDING_MODE.DIRECTED_TOWARDS_NEGATIVE_INFINITY
+              ? sign < 0n
+              : roundingMode === ROUNDING_MODE.DIRECTED_TOWARDS_POSITIVE_INFINITY
+                ? sign > 0n
+                : roundingMode === ROUNDING_MODE.STOCHASTIC
+                  ? randBigInt(absB) < remainder
 
-                    // Truncated .5 exactly, decide tie break
-                    : roundingMode === ROUNDING_MODE.NEAREST_HALF_THROW
-                      ? (() => { throw Error('cannot round a fraction of .5') })()
-                      : roundingMode === ROUNDING_MODE.NEAREST_HALF_TOWARDS_ZERO
-                        ? false
-                        : roundingMode === ROUNDING_MODE.NEAREST_HALF_AWAY_FROM_ZERO
-                          ? true
-                          : roundingMode === ROUNDING_MODE.NEAREST_HALF_TOWARDS_NEGATIVE_INFINITY
-                            ? sign < 0n
-                            : roundingMode === ROUNDING_MODE.NEAREST_HALF_TOWARDS_POSITIVE_INFINITY
-                              ? sign > 0n
-                              : roundingMode === ROUNDING_MODE.NEAREST_HALF_TO_EVEN
-                                ? q % 2n !== 0n
-                                : roundingMode === ROUNDING_MODE.NEAREST_HALF_TO_ODD
-                                  ? q % 2n === 0n
-                                  : roundingMode === ROUNDING_MODE.NEAREST_HALF_ALTERNATE
-                                    ? (alternateUp = !alternateUp)
+                  // All modes beyond this point round to nearest
+                  : remainder * 2n < absB
+                    ? false // truncated less than .5, leave it
+                    : remainder * 2n > absB
+                      ? true // truncated more than .5, undo that
 
-                                    // ROUNDING_MODE.NEAREST_HALF_RANDOM
-                                    : Math.random() < 0.5
+                      // Truncated .5 exactly, decide tie break
+                      : roundingMode === ROUNDING_MODE.NEAREST_HALF_THROW
+                        ? (() => { throw Error('cannot round a fraction of .5') })()
+                        : roundingMode === ROUNDING_MODE.NEAREST_HALF_TOWARDS_ZERO
+                          ? false
+                          : roundingMode === ROUNDING_MODE.NEAREST_HALF_AWAY_FROM_ZERO
+                            ? true
+                            : roundingMode === ROUNDING_MODE.NEAREST_HALF_TOWARDS_NEGATIVE_INFINITY
+                              ? sign < 0n
+                              : roundingMode === ROUNDING_MODE.NEAREST_HALF_TOWARDS_POSITIVE_INFINITY
+                                ? sign > 0n
+                                : roundingMode === ROUNDING_MODE.NEAREST_HALF_TO_EVEN
+                                  ? q % 2n !== 0n
+                                  : roundingMode === ROUNDING_MODE.NEAREST_HALF_TO_ODD
+                                    ? q % 2n === 0n
+                                    : roundingMode === ROUNDING_MODE.NEAREST_HALF_ALTERNATE
+                                      ? (alternateUp = !alternateUp)
 
-  return q + (undoTruncation ? sign : 0n)
-}
+                                      // ROUNDING_MODE.NEAREST_HALF_RANDOM
+                                      : Math.random() < 0.5
 
-module.exports = {
-  divide,
-  ROUNDING_MODE
+    return q + (undoTruncation ? sign : 0n)
+  }
 }
