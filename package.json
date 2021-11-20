@@ -1,6 +1,6 @@
 {
   "name": "big-round",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Custom rounding behaviour for BigInt arithmetic",
   "homepage": "https://github.com/qntm/big-round",
   "repository": {
@@ -10,17 +10,19 @@
   "main": "src/index.js",
   "dependencies": {},
   "devDependencies": {
-    "jest": "^27.0.3",
+    "c8": "^7.10.0",
+    "mocha": "^9.1.3",
     "standard": "^16.0.3"
   },
   "scripts": {
-    "pretest": "standard",
-    "test": "jest"
+    "mocha": "c8 --100 mocha",
+    "standard": "standard",
+    "test": "npm run standard && npm run mocha"
   },
   "author": "qntm",
   "license": "MIT",
   "files": [
-    "src/index.js"
+    "src"
   ],
   "keywords": [
     "bigint",
@@ -32,8 +34,5 @@
     "mathematics",
     "divide",
     "division"
-  ],
-  "bugs": {
-    "url": "https://github.com/qntm/big-round/issues"
-  }
+  ]
 }
