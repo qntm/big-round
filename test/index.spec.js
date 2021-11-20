@@ -546,11 +546,33 @@ describe('Divide', () => {
     describe('half random', () => {
       const divide = Divide(ROUNDING_MODE.NEAREST_HALF_RANDOM)
 
+      it('works', () => {
+        assert.deepStrictEqual(divide(10n, 10n), 1n)
+        assert.deepStrictEqual(divide(0n, 10n), 0n)
+        assert.deepStrictEqual(divide(-10n, 10n), -1n)
+      })
+
+      it('works on negatives', () => {
+        assert.deepStrictEqual(divide(-10n, -10n), 1n)
+        assert.deepStrictEqual(divide(0n, -10n), 0n)
+        assert.deepStrictEqual(divide(10n, -10n), -1n)
+      })
+
       it('"works"', () => {
+        // Ugh whatever
+        const buckets = { [-1]: 0, [-2]: 0 }
+        for (let i = 0; i < 1000; i++) {
+          buckets[String(divide(15n, -10n))]++
+        }
+        assert.deepStrictEqual(buckets[-1] > 450 && buckets[-1] < 550, true)
+        assert.deepStrictEqual(buckets[-2] > 450 && buckets[-2] < 550, true)
+      })
+
+      it('"works" on negatives', () => {
         // Ugh whatever
         const buckets = { 1: 0, 2: 0 }
         for (let i = 0; i < 1000; i++) {
-          buckets[String(divide(15n, 10n))]++
+          buckets[String(divide(-15n, -10n))]++
         }
         assert.deepStrictEqual(buckets[1] > 450 && buckets[1] < 550, true)
         assert.deepStrictEqual(buckets[2] > 450 && buckets[2] < 550, true)
@@ -562,7 +584,29 @@ describe('Divide', () => {
     describe('stochastic', () => {
       const divide = Divide(ROUNDING_MODE.STOCHASTIC)
 
+      it('works', () => {
+        assert.deepStrictEqual(divide(10n, 10n), 1n)
+        assert.deepStrictEqual(divide(0n, 10n), 0n)
+        assert.deepStrictEqual(divide(-10n, 10n), -1n)
+      })
+
+      it('works on negatives', () => {
+        assert.deepStrictEqual(divide(-10n, -10n), 1n)
+        assert.deepStrictEqual(divide(0n, -10n), 0n)
+        assert.deepStrictEqual(divide(10n, -10n), -1n)
+      })
+
       it('"works"', () => {
+        // Submit a PR if you have a half-decent idea of how to unit this nonsense
+        const buckets = { [-1]: 0, [-2]: 0 }
+        for (let i = 0; i < 1000; i++) {
+          buckets[String(divide(16n, -10n))]++
+        }
+        assert.deepStrictEqual(buckets[-1] > 350 && buckets[-1] < 450, true)
+        assert.deepStrictEqual(buckets[-2] > 550 && buckets[-2] < 650, true)
+      })
+
+      it('"works" for negatives', () => {
         // Submit a PR if you have a half-decent idea of how to unit this nonsense
         const buckets = { 1: 0, 2: 0 }
         for (let i = 0; i < 1000; i++) {
