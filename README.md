@@ -3,9 +3,11 @@
 Ordinarily, JavaScript `BigInt` division rounds towards 0. `big-round` provides alternative methods for dividing `BigInt`s with different rounding behaviour.
 
 ```js
-const { divide, ROUNDING_MODE: { DIRECTED_AWAY_FROM_ZERO } } = require('big-round')
+import { Divide, ROUNDING_MODE } from 'big-round'
 
-divide(DIRECTED_AWAY_FROM_ZERO, 25n, 10n) // 3n
+const divide = Divide(ROUNDING_MODE.DIRECTED_AWAY_FROM_ZERO)
+
+divide(25n, 10n) // 3n
 ```
 
 ## API

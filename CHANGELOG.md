@@ -15,7 +15,8 @@ should be refactored to something like:
 ```js
 import { Divide, ROUNDING_MODE } from 'big-round'
 
-const divide = Divide(ROUNDING_MODE.DIRECTED_TOWARDS_ZERO
+const divide = Divide(ROUNDING_MODE.DIRECTED_TOWARDS_ZERO)
+
 const q = divide(18n, 10n)
 ```
 
