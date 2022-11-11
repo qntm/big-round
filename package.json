@@ -1,6 +1,6 @@
 {
   "name": "big-round",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Custom rounding behaviour for BigInt arithmetic",
   "homepage": "https://github.com/qntm/big-round",
   "repository": {
@@ -18,7 +18,8 @@
   "scripts": {
     "mocha": "c8 --100 mocha",
     "standard": "standard",
-    "test": "npm run standard && npm run mocha"
+    "tag": "node -e \"require('child_process').spawn('git', ['tag', `v${require('./package.json').version}`], { stdio: 'inherit' })\"",
+    "tag-and-publish": "npm run tag && git push --tags && npm publish && npm version patch --no-git-tag-version && git add . && git commit -m \"Bump patch\" && git push"
   },
   "author": "qntm",
   "license": "MIT",
