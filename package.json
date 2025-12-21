@@ -1,6 +1,6 @@
 {
   "name": "big-round",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "Custom rounding behaviour for BigInt arithmetic",
   "homepage": "https://github.com/qntm/big-round",
   "repository": {
