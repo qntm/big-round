@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.0.0
+
+Support for Node.js 18 and lower is dropped.
+
 ## 2.0.0
 
 Support for CommonJS modules is dropped. `big-round` is now provided as ES modules only. Additionally, the API is altered. Code like:
