@@ -1,9 +1,8 @@
 // Test data mostly from Wikipedia
 // <https://en.wikipedia.org/w/index.php?title=Rounding&oldid=960109264#Comparison_of_approaches_for_rounding_to_an_integer>
 
-/* eslint-env mocha */
-
 import assert from 'node:assert/strict'
+import { describe, it } from 'node:test'
 
 import { Divide, ROUNDING_MODE } from '../src/index.js'
 
